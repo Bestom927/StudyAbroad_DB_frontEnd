@@ -1,3 +1,7 @@
+<!--
+描述：用户信息展示组件
+作者：焦佳宇
+-->
 <template>
   <!-- 用户信息展示卡片的封装，需传入用户信息对象 -->
   <el-card class="box-card" :body-style="this.body_style">
@@ -8,15 +12,13 @@
           ><b>{{ blog_user_info.user_name }}</b></span
         >
         <el-button
-          type="warning"  circle
+          type="primary"
           v-if="this.is_follow == false"
           @click="FollowUser"
-          ><el-icon size="large" color="#ffffff"><Star /></el-icon
-        ></el-button>
+          >+关注</el-button
+        >
 
-        <el-button type="warning" circle v-else @click="CancelFollow"
-          ><el-icon size="large" color="#ffffff"><StarFilled /></el-icon
-        ></el-button>
+        <el-button type="primary" v-else @click="CancelFollow">-取关</el-button>
       </div>
     </template>
     <el-row gutter="10" justify="center">
@@ -80,11 +82,19 @@ export default {
       }
     },
     userSignature() {
-      if (this.blog_user_info.user_signature.length >= 1) {
-        return this.blog_user_info.user_signature;
-      } else {
+      if (
+        this.blog_user_info.user_signature == undefined ||
+        this.blog_user_info.user_signature.length < 1
+      ) {
         return "该用户尚未编写个性签名";
+      } else {
+        return this.blog_user_info.user_signature;
       }
+      // if (this.blog_user_info.user_signature >= 1 ) {
+      //   return this.blog_user_info.user_signature;
+      // } else {
+      //   return "该用户尚未编写个性签名";
+      // }
     },
   },
   methods: {
@@ -125,7 +135,10 @@ export default {
           duration: 2000,
         });
         /**之后此处需记录当前页面路径，以便于登陆完成后跳转 */
-        this.$router.push("\login");
+        this.$router.push({
+          path: "/login",
+          query: { redirect: this.$route.path },
+        });
       } else {
         //若已登录
         if (
@@ -172,10 +185,12 @@ export default {
       }
     },
   },
+  // onMounted(){
   beforeMount() {
     //认证信息
+    //console.log(this.blog_user_info); //若为beforeMount 则此处打印为空 无法获取identity
     axios({
-      url: "userinfo?user_id=" + this.blog_user_info.user_id,
+      url: "userinfo/identity?user_id=" + this.blog_user_info.user_id,
     })
       .then((res) => {
         this.identity_info = [].concat(res.data.data.identity_info);

@@ -1,3 +1,7 @@
+<!--
+描述：动态详情页面
+作者：焦佳宇
+-->
 <template>
   <div class="common-layout">
     <el-container>
@@ -9,10 +13,18 @@
         
         <div v-for="blog in this.blog_relevant" :key="blog">
         <blog-info-board :blog_info="blog" class="BlogCard"/>
-
+        
         </div>
       </el-aside>
-      <el-main>Main</el-main>
+      <el-main>
+        <like-button :show_num="true" :content_id="0" content_type="0" size="xx-small"></like-button>
+        <like-button :show_num="true" :content_id="0" content_type="0" size="x-small"></like-button>
+        <like-button :show_num="true" :content_id="0" content_type="0" size="small"></like-button>
+        <like-button :show_num="true" :content_id="0" content_type="0" size="normal"></like-button>
+        <like-button :show_num="true" :content_id="0" content_type="0" size="large"></like-button>
+        <like-button :show_num="true" :content_id="0" content_type="0" size="x-large"></like-button>
+        <like-button :show_num="true" :content_id="0" content_type="0" size="xx-large"></like-button>
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -21,10 +33,12 @@
 import UserInfoBoard from "../components/UserInfoBoard.vue";
 import BlogInfoBoard from "../components/BlogInfoBoard.vue";
 import axios from "axios"
+import LikeButton from '../components/LikeButton.vue';
 export default {
   components: {
     UserInfoBoard,
-    BlogInfoBoard
+    BlogInfoBoard,
+    LikeButton
   },
   data() {
     return {
@@ -56,7 +70,7 @@ export default {
     };
     //相关博客
     axios({
-      url:"/blog/bloglist",
+      url:"/blog/time?num=3&tag='生活'",
       method:"get"
     }).then(res=>{
       this.blog_relevant=[].concat(res.data.data.blog)

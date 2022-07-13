@@ -7,6 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@element-plus/icons": "^0.0.11",
     "@element-plus/icons-vue": "^2.0.6",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
@@ -15,6 +16,7 @@
     "vue": "^3.2.13",
     "vue-axios": "^3.4.1",
     "vue-router": "^4.0.3",
+    "vue3-infinite-list": "^0.2.5",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
